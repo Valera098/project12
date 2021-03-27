@@ -25,8 +25,22 @@ export class AppComponent {
       this.workers.splice(index, 1);
     }
   }
+  onEdit({id, name, surname, type}) {
+    if(this.isFieldsEmpty({name, surname, type}))return alert('Невозможно создать запись с пустыми полями');//Проверка, если поля пустые
+
+
+    let index = this.workers.findIndex((worker) => worker.id === id);
+
+    this.workers[index] = {
+      ...this.workers[index],
+      name, surname, type
+    }
+
+  }
 
   onAddWorker(worker) {
+    if(this.isFieldsEmpty(worker))return alert('Невозможно создать запись с пустыми полями');//Проверка, если поля пустые
+
     let id =
       this.workers.length > 0
         ? this.workers[this.workers.length - 1].id + 1
@@ -34,4 +48,9 @@ export class AppComponent {
     worker.id = id;
     this.workers.push(worker);
   }
+
+  isFieldsEmpty(worker){
+    return worker.name===undefined||worker.surname===undefined||worker.surname.trim()===''||worker.name.trim()===''
+  }
+
 }
